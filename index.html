@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery hasEvent</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="src/jquery.hasevent.js"></script>
+
+        <script type="text/javascript" >
+            $(document).ready(function() {
+
+                var $el = jQuery(document).find('div#el:first');
+
+                // Event setup with two closurs and two lambda functions
+                var fnClick = function() {
+                    console.log('closure click!');
+                }
+
+                var fnMouseover = function() {
+                    console.log('closure mousemove!');
+                }
+
+                $el.bind({
+                    'click': fnClick,
+                    'mouseover': fnMouseover
+                });
+
+                $el.bind({
+                    'click': function() {
+                        console.log('lambda click!');
+                    },
+                    'dblclick': function() {
+                        console.log('lambda double click!');
+                    }
+                });
+
+
+                // check for the attached events
+
+                jQuery.hasEvent('click', fnClick, $el);
+                
+                // OR
+
+                $el.hasEvent('click');                  // true
+                $el.hasEvent('dblclick');               // true
+                $el.hasEvent('mouseover');              // true
+                $el.hasEvent('trippleclick');           // false
+
+                $el.hasEvent('click', fnClick);         // true
+                $el.hasEvent('click', function() {});   // false
+
+                $el.hasEvent('mouseover', fnMouseover); // true
+
+                $el.hasEvent(fnClick);                  // true
+                $el.hasEvent(fnMouseover);              // true
+
+            });
+        </script>
+
+        <style type="text/css">
+            body div#el { height: 25px; width: 25px; background: #85fdfd; }
+        </style>    </head>
+
+    <body>
+        <div id="el"></div>
+    </body>
+</html>
