@@ -12,24 +12,24 @@
     $.fn.hasEvent = function(A, F, E) {
         var L = 0;
         var T = typeof A;
-        var V = false;        
+        var V = false;
         E = E ? E : this;
         A = (T == 'string') ? $.trim(A) : A;
-        if(T == 'function') F = A, A = '';
+        if(T == 'function') F = A, A = null;
         if(F == E) delete(F);
         var S = E.data('events');
         for (e in S) if (S.hasOwnProperty(e)) L++;
         if(L < 1) return V = false;
-        if(A.length > 0 && !F) {
+        if(A && !F) {
             return V = S.hasOwnProperty(A);
         } else
-        if(A.length > 0 && S.hasOwnProperty(A) && F) {
+        if(A && S.hasOwnProperty(A) && F) {
             $.each(S[A], function(i, r) {
                 if(V == false && r.handler == F) V = true;
             });
             return V;
         } else
-        if(A.length == 0 && F) {
+        if(!A && F) {
             $.each(S, function(i, s) {
                 if(V == false) {$.each(s, function(k, r) {
                     if(V == false && r.handler == F) V = true;
